@@ -91,7 +91,7 @@ class  AppRouting{
                     .on('end',()=>{
                         let jsonResponse = JSON.parse(body);
 
-                        if(jsonResponse.email == "@gmail",jsonResponse.password == "123456"){
+                        if(jsonResponse.email == "@gmai",jsonResponse.password == "123456"){
                             response.end("login successfully");
                         }
                         else{
