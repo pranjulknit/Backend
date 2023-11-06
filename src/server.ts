@@ -1,34 +1,34 @@
-import http, {IncomingMessage, ServerResponse} from "http";
-import * as url from "url";
-import * as os from "os";
-import * as fs from "fs";
-import * as path from "path";
-import {UserData} from "./user/user_data";
-import App_routing from "./routing/app_routing";
+import express from 'express';
+import {hostname} from "os";
 
 
-const hostName:string = "localhost";
-const portNumber:number = 3001;
+const  app:express.Application = express();
 
-let server = http.createServer((request:IncomingMessage, res:ServerResponse)=>{
-      res.statusCode = 200;
+const localhost:string = "localhost";
+const portNumber:number = 5000;
 
-      res.setHeader("content-type","text/html");
-      // let _url = request.url;
-      // let queryParams = url.parse(_url!).query;
-      // let pathName = url.parse(_url!).pathname;
-      //
-      // let filterQuery = queryParams?.split("data=").pop()!.replaceAll("%20"," ");
-      // let user = new UserData();
 
-     
-     App_routing.appRouting(request,res);
+
+app.get('/',(reqeust:express.Request,response:express.Response)=>{
+    response.status(200);
+     response.send("<h1>Welcome</h1>");
+});
+
+
+app.post('/create',(reqeust:express.Request,response:express.Response)=>{
+    response.status(200);
+    response.send("<h1>Welcome</h1>");
+});
+
+app.put('/update',(reqeust:express.Request,response:express.Response)=>{
+    response.status(200);
+    response.send("<h1>Welcome</h1>");
 })
 
-server.listen(portNumber,hostName,()=>{
-      console.log("Hello my first server");
-
-
-      console.log(`http://${hostName}:${portNumber}`);
-
+app.delete('/delete',(reqeust:express.Request,response:express.Response)=>{
+    response.status(200);
+    response.send("<h1>Welcome</h1>");
 })
+app.listen(portNumber,localhost,()=>{
+    console.log("Welcome to expres ")
+});
