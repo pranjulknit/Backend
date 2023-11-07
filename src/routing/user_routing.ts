@@ -1,6 +1,7 @@
 import express from "express";
 
-
+import bcrypt from "bcrypt";
+import {body,validationResult} from "express-validator";
 
 const  userRouting = express.Router();
 
@@ -26,26 +27,52 @@ userRouting.delete('/delete',(reqeust:express.Request,response:express.Response)
     response.send("<h1>Welcome</h1>");
 })
 
-userRouting.post("/login",(request,response)=>{
+userRouting.post("/createNewUser",[body('email').not().isEmpty().isEmail().withMessage("email reuired"),body('name').not().isEmpty(),],async(request:express.Request,response:express.Response)=>{
     let body = request.body;
 
 
-    let {email,password} = request.body;
+    let {email,password,name} = request.body;
+    let error = validationResult(request);
 
-    if(email == "@gmail" && password == "12345"){
-        response.status(200).json({
+    if(!error.isEmpty()){
+        response.status(400).json({
             "status":response.statusCode,
-            "data":body,
-            "msg":"user login successfully"
+            "data":body
         });
     }
     else{
-        response.status(401).json({
+        let salt = await bcrypt.genSalt();
+        let hashPassword = await bcrypt.hash(password,salt);
+
+        response.status(200).json({
             "status":response.statusCode,
-            "data":body,
-            "msg":"invalid email password"
-        })
+            "data":{
+                "email":"@gmail",
+                "password":"12345",
+                "name":"Pranjul"
+            },
+            "hashPassword":hashPassword
+        });
     }
+
+
+    // if(email == "@gmail" && password == "12345"){
+    //     response.status(200).json({
+    //         "status":response.statusCode,
+    //         "data":body,
+    //         "msg":"user login successfully"
+    //     });
+    // }
+    // else{
+    //     response.status(401).json({
+    //         "status":response.statusCode,
+    //         "data":body,
+    //         "msg":"invalid email password"
+    //     })
+    // }
+
+
+
 
     //response.status(200).json(body);
 
