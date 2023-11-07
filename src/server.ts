@@ -5,11 +5,11 @@ import post_Routing from "./routing/post_routing";
 import post_routing from "./routing/post_routing";
 
 const  app:express.Application = express();
+app.use(express.json());
 
 // routing with use of middilewares
 app.use("/v1/user",userRouting);
 app.use("/v1/post",post_routing);
-
 
 const localhost:string = "localhost";
 const portNumber:number = 5000;
